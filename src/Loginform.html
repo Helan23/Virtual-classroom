@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .button 
+            {
+            background-color: #1d0f0f4d; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            }
+            
+            form
+            {
+              border: 3px solid #00c1cf;
+            }
+            input[type=text],input[type=password]
+            {
+              width: 100%;
+              margin: 8px 0;
+              padding: 12px 20px;
+              display: inline;
+              box-sizing: border-box;
+              border: 2px solid green;
+            }
+            button.hover
+            {
+              opacity: 0.7;
+            }
+            .cancelbtn
+            {
+              width: auto;
+              padding: 10 px 18px;
+              margin: 10px 5px;
+            }
+            .container
+            {
+              padding: 25px;
+              background-color: #606060;
+            }
+    </style>
+<title>Login Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Sniglet&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container my-wrapper">
+    <div class="text-center">
+      <img width="25%" src="C:\Users\Helan\Documents\Miniproject\learnwords\src\logo.png" >
+      <p class="congDiscription">Learnwords is an open source online virtual classroom environment. It has been packaged with several value added features such as, audio-video interaction, chat. Learnwords also enhances the learning experience by allowing the users to share media, documents or even screen with their fellow participants.</p>
+    </div>
+    <div>
+        <center><h1> Student Login</h1></center>
+        
+        <div class="container">
+            <label>Username: </label>
+            <input type="password" placeholder="Enter username" name="username" id="email" required>
+            <label> Password </label>
+            <input type="password" placeholder="Enter password" name="password" id="pwd1" required>
+            <button type="submit" value="login" class="btn" onclick="login()">Login</button>
+            <input type="checkbox" checked="checked"> Remember me
+            <button type="button" class="cancelbtn" value="Reset" onclick="clearFunc()"> cancel </button>
+            <a href="#">Forgot password?</a>
+        </div>
+              
+      
+      <style>
+
+        * {
+            box-sizing: border-box;
+        }
+      
+        body 
+        {
+          background-color: #fff;
+          height: 100%;
+          font-family: Helvetica;
+          font-size: 16px;
+        }
+      
+        .container 
+        {
+          padding: 5rem 1.5rem;
+        }
+      
+        .congDiscription 
+        {
+          font-size: 1.2rem;
+          font-family: Helvetica;
+          font-weight: 400;
+          line-height: 1.5;
+          color: #606060;
+          margin: 5% auto;
+        }
+        
+        
+        .text-center
+        {
+          text-align: center;
+          width: 95%;
+          margin: 3rem auto;
+        }
+      
+        
+        .container .first, .container .second {
+          margin: 3rem 2rem 5rem 2rem;
+        }
+      
+        .container .steps {
+          font-family: 'Sniglet', cursive;
+          font-size: 6rem;
+          color: #aaa;
+        }
+      
+        .container span {
+          font-size: 1rem;
+          color: #606060;
+          margin-left: 5px;
+        }
+      
+      
+      
+        @media only screen and (min-device-width: 375px) and (max-device-width: 950px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+          html,body {
+            font-size: 12;
+          }
+        }
+      </style>
+      <script>
+        
+    function login()
+	{
+    //alert("logging you in");
+    var usernameToUserIdMapping = {
+      "abel" : 1,
+      "ajmal" : 2,
+      "akhilesh" : 3,
+      "rose" : 4
+    }
+		var username = document.getElementById("email").value;
+		var password = document.getElementById("pwd1").value;
+		var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		if(username =='')
+		{
+			alert("please enter user name.");
+		}
+		else if(password=='')
+		{
+        	alert("enter the password");
+		}
+		else
+		{
+    //  alert("user name matching in prgress");
+      if(username in  usernameToUserIdMapping) {
+        window.location = "http://localhost:3000/dashboard.html?userId=" + usernameToUserIdMapping[username];
+      } else {
+        alert("USer not currently registered in the database");
+      }
+  //Redirecting to other page or webste code or you can set your own html page.
+       
+		}
+	}
+	//Reset Inputfield code.
+	function clearFunc()
+	{
+		document.getElementById("email").value="";
+		document.getElementById("pwd1").value="";
+	}
+      </script>
+      </body>
+      </html>

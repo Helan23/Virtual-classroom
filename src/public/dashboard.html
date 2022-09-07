@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Learn Words</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Custom styles for this template -->
+    <link href="css/offcanvas.css" rel="stylesheet">
+  </head>
+  <body class="bg-light" onload="refreshCurrentUserDetails(); refreshCurrentQuestionsList(); refreshCurrentAttachmentList();refreshUserPermissions();">
+<nav class="navbar fixed-top navbar-light p-3  justify-content-between">
+  <div>
+    <a class="navbar-brand">Learn Words</a>
+    <select class="form-select col-sm-6 btn-primary" aria-label="Default select example" id="selectedCourseField" style="display:inline-block; width: auto;">
+    
+    </select>
+  </div>
+  <div>
+    <button type="button" class="btn  btn-primary" data-bs-toggle="modal" data-bs-target="#createCourse" id="createCourseButton" ><i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp Create new course</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerCourse" id="registerForCourseButton" onclick="populateExistingCoursesInRegistrationModal()"><i class="fa fa-plus-square" aria-hidden="true"></i> &nbsp Register for new course</button>  
+    <button type="button" class="btn  btn-primary" hidden><i class="fa fa-sign-out" aria-hidden="true"></i> &nbsp Logout</button> &nbsp &nbsp
+    <span id="usernameField"></span>
+        
+      </div>
+</nav>
+
+<main class="container">
+  
+
+  <!-- Ask Question Modal Start -->
+  <div class="modal" id="askQuestion" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Ask your question</h5>
+      
+      </div>
+      <div class="modal-body">
+        <textarea id="newQuestionText" rows="4" cols="50" placeholder="Type here.."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="addQuestion(); document.getElementById('addQuestionCloseButton').click()">Submit</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id = "addQuestionCloseButton">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Ask Question Modal End -->
+
+<!-- Answer Question Modal Start -->
+  <div class="modal" id="answerQuestion" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Give your answer</h5>
+      
+      </div>
+      <div class="modal-body">
+        <p id="answerQuestionModalQuestionId" hidden></p>
+        <p id="answerQuestionModalQuestionText" class="pb-3 mt-2 mb-0 medium lh-sm">
+            What is the past participle of a go?
+          </p>
+        <textarea id="answerQuestionModalAnswer" rows="4" cols="50" placeholder="Type here.."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="submitAnswer(); document.getElementById('answerQuestionCloseButton').click()">Submit</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="answerQuestionCloseButton">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Answer Question Modal End -->
+
+  <!-- Create course Modal Start -->
+    <div class="modal" id="createCourse" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Course Details</h5>
+        
+        </div>
+        <div class="modal-body">
+          <div class="form-group my-2">
+            <label class="col-sm-4 col-form-label" for="newCourseIdField">Course id</label>
+            <input class="col-sm-6" type="text" name="" class="mb-3" id="newCourseIdField" /> <br>
+          </div>
+          <div class="form-group my-2">
+            <label class="col-sm-4 col-form-label" for="newCourseNameField">Course name</label>
+            <input type="url" class="col-sm-6 mb-3" name=""  id="newCourseNameField"></input>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="createNewCourse(); document.getElementById('createCourseCloseButton').click()">Submit</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="createCourseCloseButton">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Create course Modal End -->
+
+  <!-- Register course Modal Start -->
+    <div class="modal" id="registerCourse" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Course Details</h5>
+        
+        </div>
+        <div class="modal-body">
+          <label class="col-sm-4 col-form-label mb-1" for="attachmentTypeField">Select from existing courses</label>
+          <select class="form-select col-sm-6" aria-label="Default select example" id="courseDescriptionFieldInRegistrationModal" style="display:inline-block; width: auto;" >
+            <option value="--" selected>--</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="registerForNewCourse();  document.getElementById('registerForCourseCloseButton').click()">Submit</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="registerForCourseCloseButton">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Register course Modal End -->
+
+  <!-- Add attachment Modal Start -->
+    <div class="modal" id="addAttachment" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add an attachment</h5>
+        
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group mb-2">
+              <label class="col-sm-4 col-form-label mb-1" for="attachmentTypeField">Type of file</label>
+              <select class="form-select col-sm-6" aria-label="Default select example" id="attachmentTypeField" style="display:inline-block; width: auto;">
+                <option value="document" selected>Document</option>
+                <option value="video">Video</option>
+                <option value="image">Image</option>
+                <option value="voice">Voice</option>
+              </select>
+            </div>
+            <div class="form-group my-2">
+              <label class="col-sm-4 col-form-label" for="attachmentNameField">Attachment Name</label>
+              <input class="col-sm-6" type="text" name="" class="mb-3" id="attachmentNameField" /> <br>
+            </div>
+            <div class="form-group my-2">
+              <label class="col-sm-4 col-form-label" for="attachmentLinkField">External link</label>
+              <input type="url" class="col-sm-6 mb-3" name=""  id="attachmentLinkField"></input>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" onclick="addAttachment(); document.getElementById('addAttachmentFormCloseButton').click()">Submit</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="addAttachmentFormCloseButton">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Add attachment Modal End -->
+
+
+  <div class="mt-4 p-3 ml-5 bg-body rounded shadow-sm" >
+    
+    <div class="pb-0 mb-0 small lh-sm w-100">
+        <div class="d-flex justify-content-between">
+          <h6 class="pb-2 mb-0">Unanswered questions &nbsp <span class="badge bg-danger" id="unansweredQuestionsCountBadge">0</span></h6>
+          <div>
+            <button type="button" class="btn btn-outline-primary" onclick="refreshCurrentQuestionsList();" id="refreshQuestionsButton">
+              <i class="fa fa-refresh" aria-hidden="true"></i> 
+            </button>
+            <button id="addQuestionButton" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#askQuestion">
+              <i class="fa fa-plus" aria-hidden="true"></i> Add
+            </button>
+          </div>
+        </div>
+      </div>
+    <div id="unansweredQuestionsContainer" class="mb-4">
+      <div class="d-flex text-muted pt-3 fw-light">
+        No unanswered questions found for this course
+      </div>
+    </div>
+    <h6 class="pb-2 mb-0">Answered questions &nbsp <span class="badge bg-danger" id="answeredQuestionsCountBadge">0</span></h6>
+    <div id="answeredQuestionsContainer">
+      <div class="d-flex text-muted pt-3 fw-light">
+        No answered questions found for this course
+      </div>
+    </div>
+  </div>
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm" >
+    <div class="pb-0 mb-0 small lh-sm w-100">
+        <div class="d-flex justify-content-between">
+          <h6 class=" pb-2 mb-0">Attachments &nbsp <span class="badge bg-danger" id="attachmentCountBadge">0</span></h6>
+          <div>
+            <button type="button" class="btn btn-outline-primary" onclick="refreshCurrentAttachmentList();" id="refreshAttachmentButton">
+              <i class="fa fa-refresh" aria-hidden="true"></i> 
+            </button>
+            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addAttachment" id="addAttachmentButton"><i class="fa fa-plus" aria-hidden="true"></i> Add
+            </button>
+          </div>
+        </div>
+      </div>
+    <div id="currentAttachmentListContainer">
+      <div class="d-flex text-muted pt-3 fw-light">
+        No attachments has been uploaded to this course yet
+      </div>
+    </div>
+  </div>
+</main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+      <script src="js/offcanvas.js"></script>
+      <script src="js/utils.js"></script>
+      <script src="js/course.js"></script>
+      <script src="js/attachment.js"></script>
+      <script src="js/user.js"></script>
+      <script src="js/question.js"></script>
+  </body>
+</html>
